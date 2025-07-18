@@ -25,6 +25,40 @@ handle_error() {
 
 trap handle_error ERR
 
+is_package_installed() {
+  local package_name="$1"
+  dpkg -l "$package_name" 2>/dev/null | grep -q "^ii"
+}
+
+is_command_available() {
+  local command_name="$1"
+  command -v "$command_name" >/dev/null 2>&1
+}
+
+install_if_missing() {
+  local package_name="$1"
+  local display_name="${2:-$package_name}"
+
+  if is_package_installed "$package_name"; then
+    echo "✅ $display_name is already installed"
+  else
+    echo "📦 Installing $display_name..."
+    sudo apt-get install -y "$package_name" >/dev/null
+    echo "✅ $display_name installed successfully"
+  fi
+}
+
+check_application() {
+  local app_name="$1"
+  local display_name="${2:-$app_name}"
+
+  if is_command_available "$app_name"; then
+    echo "✅ $display_name is available"
+  else
+    echo "⚠️  $display_name is not found - you may need to install it manually"
+  fi
+}
+
 echo "🔍 Checking system compatibility..."
 
 if [[ "$(uname)" != "Linux" ]]; then
@@ -39,8 +73,20 @@ fi
 
 echo "✅ Compatible system detected."
 
-sudo apt update
-sudo apt install -y git wmctrl
+echo "🔄 Updating package lists..."
+sudo apt-get update >/dev/null
+
+echo "📦 Checking and installing required packages..."
+
+if is_command_available "git"; then
+  echo "✅ Git is already installed"
+else
+  echo "📦 Installing Git..."
+  sudo apt-get install -y git >/dev/null
+  echo "✅ Git installed successfully"
+fi
+
+install_if_missing "wmctrl" "Window Manager Control"
 
 echo "📁 Cloning the repo..."
 cleanup_temp_files
