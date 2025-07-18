@@ -7,7 +7,7 @@ This one is a very personal one, so feel free to learn from it, but honestly, I 
 To set up everything automatically on your system, just run the following command:
 
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/gouveags/my-ubuntu-autostart-config/main/install.sh)
+curl -fsSL https://raw.githubusercontent.com/gouveags/my-ubuntu-autostart-config/main/install.sh | bash
 ````
 
 This will:
