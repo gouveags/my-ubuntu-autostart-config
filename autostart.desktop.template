@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Exec=~/.local/bin/my-ubuntu-autostartup
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=My Ubuntu Autostart
+Comment=Automatically launch apps and place them in workspaces
