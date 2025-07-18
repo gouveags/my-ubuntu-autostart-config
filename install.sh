@@ -74,7 +74,7 @@ fi
 echo "✅ Compatible system detected."
 
 echo "🔄 Updating package lists..."
-sudo apt-get update >/dev/null
+sudo apt-get update -y >/dev/null
 
 echo "📦 Checking and installing required packages..."
 
